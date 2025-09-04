@@ -1,0 +1,26 @@
+{
+  "functions": {},
+  "classes": {
+    "D:\\Projects\\demo2\\main.py::Book": {
+      "file_path": "D:\\Projects\\demo2\\main.py",
+      "class_name": "Book",
+      "summary": "This Python code defines a `Book` class to represent a book with attributes like title, author, and number of copies. It includes methods to display book information, check availability, borrow a copy (decrementing the count), and return a copy (incrementing the count)."
+    },
+    "D:\\Projects\\demo2\\main.py::Library": {
+      "file_path": "D:\\Projects\\demo2\\main.py",
+      "class_name": "Library",
+      "summary": "This code defines a `Library` class that manages a collection of `Book` objects, allowing users to add, display, find, borrow, and return books. It provides functionalities for maintaining a library catalog and handling book lending operations."
+    },
+    "D:\\Projects\\demo2\\main2.py::Vehicle": {
+      "file_path": "D:\\Projects\\demo2\\main2.py",
+      "class_name": "Vehicle",
+      "summary": "This Python code defines a `Vehicle` class with attributes for brand and model, and methods to start, stop, and display information about the vehicle's engine. It serves as a blueprint for creating vehicle objects with basic engine control and information display functionalities."
+    },
+    "D:\\Projects\\demo2\\main2.py::ElectricVehicle": {
+      "file_path": "D:\\Projects\\demo2\\main2.py",
+      "class_name": "ElectricVehicle",
+      "summary": "This code defines an `ElectricVehicle` class that inherits from a `Vehicle` class, representing an electric vehicle with attributes like battery capacity and level. It includes methods for charging the battery, simulating driving (reducing battery level), and displaying vehicle information including battery details."
+    }
+  },
+  "methods": {}
+}

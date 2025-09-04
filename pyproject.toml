@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "code-intelligence"
+version = "0.1.0"
+description = "A tool for parsing and summarizing codebases."
+
+[tool.setuptools.packages.find]
+# This directive automatically finds all packages (directories with an
+# __init__.py file) within your project, so you don't have to list them
+# manually. We exclude the 'tests' directory as it's not part of the
+# installable package.
+exclude = ["tests*"]

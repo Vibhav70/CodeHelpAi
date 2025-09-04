@@ -1,0 +1,34 @@
+{
+  "D:\\Projects\\demo\\banking.py": {
+    "functions": {},
+    "classes": {
+      "BankAccount": {
+        "source_hash": "a686de8f696f9823ef6d453adeceea067e88082e1b5d21c3dc0815c8dbe66e21",
+        "methods": {
+          "__init__": "49bca70c5867b6bbbe468a808b7131d7cbbfe853e17084230aec4550f77d7764",
+          "deposit": "2de2325533d9b06311118bcdd3fa712bb191785cb1d2ebdf302975021b1237f4",
+          "withdraw": "fe8a38e440eca9afd5b3a2c935591fed49644255863e6a7d3722731a101b4eb7",
+          "check_balance": "c9f9e474749144d2d0f0adf7af2cdb6b98588530901f7e851edbdca410abb099"
+        }
+      }
+    }
+  },
+  "D:\\Projects\\demo\\checker.py": {
+    "functions": {},
+    "classes": {}
+  },
+  "D:\\Projects\\demo\\studenttClass.py": {
+    "functions": {},
+    "classes": {
+      "Student": {
+        "source_hash": "ac83ac1565c625065f75cc0dc47e68a9b9a90cafe65afcc36f0f1e2eb6714c4a",
+        "methods": {
+          "__init__": "07fa266a1f2d496b6861f917e6a9e71ed499f4b0ac4e3fdc0d9106208acc12fd",
+          "calculate_average": "b65d5dade427f6279d26ae7d52ff9a0ac38f9616bf42e2d451bba7adaf95add7",
+          "get_grade": "9cafeda3ffb6701d7ca56df4dfe0f9ac3119d0186120d23be0d6d0396eb4890f",
+          "display_info": "525eb53b48d3b16b156cc7928ea5946e6b04abb4b73de469e280fbfadd065e91"
+        }
+      }
+    }
+  }
+}

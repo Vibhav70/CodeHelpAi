@@ -1,0 +1,16 @@
+{
+  "functions": {},
+  "classes": {
+    "D:\\Projects\\demo\\studenttClass.py::Student": {
+      "file_path": "D:\\Projects\\demo\\studenttClass.py",
+      "class_name": "Student",
+      "summary": "This Python code defines a `Student` class to represent students, storing their name and a list of marks. It includes methods to calculate the average mark, determine the grade based on the average, and display the student's information."
+    },
+    "D:\\Projects\\demo\\banking.py::BankAccount": {
+      "file_path": "D:\\Projects\\demo\\banking.py",
+      "class_name": "BankAccount",
+      "summary": "This Python code defines a `BankAccount` class that simulates a simple bank account, allowing users to deposit, withdraw, and check their balance. The class initializes with an owner and optional initial balance, and provides methods to modify and view the account balance."
+    }
+  },
+  "methods": {}
+}
