@@ -13,6 +13,7 @@ from backend.crud import project_crud
 from backend.db import crud as history_crud
 from backend.db import db_models
 from backend import schemas as pydantic_models
+from backend.vectorstore.ingest import ingest_summaries_to_vector_store
 
 # --- Pydantic Models for Request Bodies ---
 
@@ -21,6 +22,10 @@ class IngestRequest(BaseModel):
 
 class AskRequest(BaseModel):
     question: str
+
+class UploadResponse(BaseModel):
+    message: str
+    ingested: int
 
 # --- API Router for Project-Specific Actions ---
 router = APIRouter(
@@ -100,12 +105,37 @@ async def ask_question(
             user_id=current_user.id,
             project_id=project_id
         )
-        history_crud.create_user_query(db=db, query=history_data, project_id=project_id)
+        history_crud.create_user_query(db=db, query=history_data)
 
         return {"answer": answer}
 
     except Exception as e:
         error_detail = f"An error occurred during query graph execution: {e}"
+        print(error_detail)
+        raise HTTPException(status_code=500, detail=error_detail)
+
+
+# --- Upload saved summaries to vector DB ---
+@router.post("/upload-summaries", response_model=UploadResponse)
+async def upload_project_summaries(
+    project_id: int,
+    db: Session = Depends(get_db),
+    current_user: db_models.User = Depends(get_current_user)
+):
+    """
+    Reads saved summaries for the project from project_data/<id>/summaries_db.json
+    and uploads them into the project's vector database index.
+    """
+    # Verify access
+    project = project_crud.get_project(db, project_id=project_id, user_id=current_user.id)
+    if not project:
+        raise HTTPException(status_code=404, detail="Project not found or you do not have access.")
+
+    try:
+        ingested = ingest_summaries_to_vector_store(project_id)
+        return UploadResponse(message=f"Uploaded summaries to vector DB for project '{project.name}'.", ingested=ingested)
+    except Exception as e:
+        error_detail = f"Failed to upload summaries to vector DB: {e}"
         print(error_detail)
         raise HTTPException(status_code=500, detail=error_detail)
 

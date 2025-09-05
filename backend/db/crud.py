@@ -23,7 +23,7 @@ def get_user_queries(db: Session, user_id: int, skip: int = 0, limit: int = 100)
              .limit(limit)\
              .all()
 
-def create_user_query(db: Session, query: pydantic_models.QueryHistoryCreate, project_id: int):
+def create_user_query(db: Session, query: pydantic_models.QueryHistoryCreate):
     """
     Create and store a new QueryHistory record.
     """
@@ -32,7 +32,7 @@ def create_user_query(db: Session, query: pydantic_models.QueryHistoryCreate, pr
         question=query.question,
         answer=query.answer,
         user_id=query.user_id,
-        project_id=project_id
+        project_id=query.project_id
     )
     db.add(db_query)
     db.commit()

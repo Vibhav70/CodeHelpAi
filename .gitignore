@@ -1,3 +1,9 @@
 .venv
 .env
 .pytest_cache
+alembic
+app.db
+__pycache__
+poject_data
+code_intel.db
+vectorstore

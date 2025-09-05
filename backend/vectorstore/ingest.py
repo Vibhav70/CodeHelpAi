@@ -2,196 +2,97 @@ import json
 import os
 from typing import List, Dict, Any
 
-# Import the VectorStore class, which we will now instantiate per project
 from backend.vectorstore.store import VectorStore
+from langchain_core.documents import Document
+
+def _build_id_from_metadata(metadata: Dict[str, Any]) -> str:
+    """Creates a unique and consistent ID from a document's metadata."""
+    file_path = metadata.get('source', '')
+    item_type = metadata.get('type', '')
+    item_name = metadata.get('name', '')
+    
+    if item_type == 'method':
+        class_name = metadata.get('class', '')
+        return f"{file_path}::{class_name}::{item_name}"
+    
+    return f"{file_path}::{item_name}"
 
 def format_summaries_for_ingestion(db_data: Dict[str, Any]) -> List[Dict[str, Any]]:
     """
-    Transforms the raw summaries from the JSON DB into the format
-    required by the VectorStore, which is a list of dicts, each
-    with 'text' and 'metadata'.
+    Transforms raw summaries from the JSON DB into a structured list of dictionaries,
+    ensuring all summaries are valid strings before processing.
     """
     formatted_docs = []
 
-    # Process function summaries
-    for key, summary_text in db_data.get("functions", {}).items():
-        try:
-            file_path, func_name = key.split("::")
-            formatted_docs.append({
-                "text": summary_text,
-                "metadata": {
-                    "source": file_path,
-                    "type": "function",
-                    "name": func_name
-                }
-            })
-        except ValueError:
-            print(f"Skipping malformed function key: {key}")
-
-    # Process class summaries
-    for key, summary_text in db_data.get("classes", {}).items():
-        try:
-            file_path, class_name = key.split("::")
-            formatted_docs.append({
-                "text": summary_text,
-                "metadata": {
-                    "source": file_path,
-                    "type": "class",
-                    "name": class_name
-                }
-            })
-        except ValueError:
-            print(f"Skipping malformed class key: {key}")
+    def process_summaries(summary_dict, item_type):
+        for key, summary_object in summary_dict.items():
+            summary_text = summary_object.get('summary') if isinstance(summary_object, dict) else summary_object
+            if not isinstance(summary_text, str) or not summary_text.strip():
+                print(f"Skipping invalid or empty summary for key: {key}")
+                continue
             
-    # Process method summaries
-    for key, summary_text in db_data.get("methods", {}).items():
-        try:
-            file_path, class_name, method_name = key.split("::")
-            formatted_docs.append({
-                "text": summary_text,
-                "metadata": {
-                    "source": file_path,
-                    "type": "method",
-                    "class": class_name,
-                    "name": method_name
-                }
-            })
-        except ValueError:
-            print(f"Skipping malformed method key: {key}")
+            try:
+                parts = key.split("::")
+                metadata = {}
+                if item_type == 'function' and len(parts) == 2:
+                    file_path, func_name = parts
+                    metadata = {"source": file_path, "type": "function", "name": func_name}
+                elif item_type == 'class' and len(parts) == 2:
+                    file_path, class_name = parts
+                    metadata = {"source": file_path, "type": "class", "name": class_name}
+                elif item_type == 'method' and len(parts) == 3:
+                    file_path, class_name, method_name = parts
+                    metadata = {"source": file_path, "type": "method", "class": class_name, "name": method_name}
+                else:
+                    raise ValueError("Malformed key")
+                
+                formatted_docs.append({"text": summary_text, "metadata": metadata})
+            except ValueError:
+                print(f"Skipping malformed {item_type} key: {key}")
+
+    process_summaries(db_data.get("functions", {}), 'function')
+    process_summaries(db_data.get("classes", {}), 'class')
+    process_summaries(db_data.get("methods", {}), 'method')
 
     return formatted_docs
 
-def ingest_summaries_to_vector_store(project_id: int):
+
+def ingest_summaries_to_vector_store(project_id: int) -> int:
     """
-    The main function to run the full ingestion process for a specific project.
-    1. Loads the summaries from the project-specific JSON file.
-    2. Formats them for the vector store.
-    3. Adds them to the project-specific FAISS index.
+    Ingests saved summaries for a specific project into its ChromaDB collection.
     """
-    print(f"--- Starting ingestion for project ID: {project_id} ---")
+    print(f"--- Starting ChromaDB ingestion for project ID: {project_id} ---")
     
-    # Construct the path to the project-specific summaries database
     summaries_db_path = f"project_data/{project_id}/summaries_db.json"
     
     if not os.path.exists(summaries_db_path):
-        print(f"Error: Summaries database not found for project {project_id} at {summaries_db_path}. Aborting.")
-        return
+        print(f"Error: Summaries database not found for project {project_id}.")
+        return 0
 
     try:
-        with open(summaries_db_path, "r") as f:
+        with open(summaries_db_path, "r", encoding="utf-8") as f:
             summaries_data = json.load(f)
     except (json.JSONDecodeError, IOError) as e:
-        print(f"Error reading summaries database for project {project_id}: {e}. Aborting.")
-        return
+        print(f"Error reading summaries database for project {project_id}: {e}.")
+        return 0
 
-    # Format the loaded data
     documents_to_add = format_summaries_for_ingestion(summaries_data)
 
     if not documents_to_add:
         print(f"No valid summaries found to ingest for project {project_id}.")
-        return
+        return 0
+
+    # Convert the formatted dictionaries into LangChain Document objects
+    langchain_documents = [
+        Document(page_content=doc["text"], metadata=doc["metadata"]) for doc in documents_to_add
+    ]
+    ids = [_build_id_from_metadata(doc.metadata) for doc in langchain_documents]
 
     # Instantiate the VectorStore for the specific project
     vector_store = VectorStore(project_id=project_id)
     
-    # Add the documents to the project's vector store instance
-    vector_store.add_summaries(documents_to_add)
+    # Add the documents to the project's ChromaDB collection
+    vector_store.add_documents(documents=langchain_documents, ids=ids)
 
-    print(f"--- Ingestion complete for project {project_id}. Added {len(documents_to_add)} summaries. ---")
-
-# import json
-# import os
-# from typing import List, Dict, Any
-
-# # Import the singleton instance of our vector store
-# from backend.vectorstore.store import VectorStore
-
-# # Define the path to the source of our summaries
-# SUMMARIES_DB_PATH = "summaries_db.json"
-
-# def format_summaries_for_ingestion(db_data: Dict[str, Any]) -> List[Dict[str, Any]]:
-#     """
-#     Transforms the raw summaries from the JSON DB into the format
-#     required by the VectorStore, which is a list of dicts, each
-#     with 'text' and 'metadata'.
-#     """
-#     formatted_docs = []
-
-#     # Process function summaries
-#     for key, summary_text in db_data.get("functions", {}).items():
-#         try:
-#             file_path, func_name = key.split("::")
-#             formatted_docs.append({
-#                 "text": summary_text,
-#                 "metadata": {
-#                     "source": file_path,
-#                     "type": "function",
-#                     "name": func_name
-#                 }
-#             })
-#         except ValueError:
-#             print(f"Skipping malformed function key: {key}")
-
-#     # Process class summaries
-#     for key, summary_text in db_data.get("classes", {}).items():
-#         try:
-#             file_path, class_name = key.split("::")
-#             formatted_docs.append({
-#                 "text": summary_text,
-#                 "metadata": {
-#                     "source": file_path,
-#                     "type": "class",
-#                     "name": class_name
-#                 }
-#             })
-#         except ValueError:
-#             print(f"Skipping malformed class key: {key}")
-            
-#     # Process method summaries
-#     for key, summary_text in db_data.get("methods", {}).items():
-#         try:
-#             file_path, class_name, method_name = key.split("::")
-#             formatted_docs.append({
-#                 "text": summary_text,
-#                 "metadata": {
-#                     "source": file_path,
-#                     "type": "method",
-#                     "class": class_name,
-#                     "name": method_name
-#                 }
-#             })
-#         except ValueError:
-#             print(f"Skipping malformed method key: {key}")
-
-#     return formatted_docs
-
-# def ingest_summaries_to_vector_store():
-#     """
-#     The main function to run the full ingestion process.
-#     1. Loads the summaries from the JSON file.
-#     2. Formats them for the vector store.
-#     3. Adds them to the FAISS index.
-#     """
-#     print("--- Starting ingestion of summaries into vector store ---")
-#     if not os.path.exists(SUMMARIES_DB_PATH):
-#         print(f"Error: Summaries database not found at {SUMMARIES_DB_PATH}. Aborting.")
-#         return
-
-#     try:
-#         with open(SUMMARIES_DB_PATH, "r") as f:
-#             summaries_data = json.load(f)
-#     except (json.JSONDecodeError, IOError) as e:
-#         print(f"Error reading summaries database: {e}. Aborting.")
-#         return
-
-#     # Format the loaded data
-#     documents_to_add = format_summaries_for_ingestion(summaries_data)
-
-#     if not documents_to_add:
-#         print("No valid summaries found to ingest.")
-#         return
-
-#     VectorStore.add_summaries(documents_to_add)
-
-#     print(f"--- Ingestion complete. Added {len(documents_to_add)} summaries to the vector store. ---")
-
+    print(f"--- ChromaDB ingestion complete for project {project_id}. Added/updated {len(langchain_documents)} summaries. ---")
+    return len(langchain_documents)
