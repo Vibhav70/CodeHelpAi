@@ -1,0 +1,21 @@
+{
+  "functions": {},
+  "classes": {
+    "C:\\Desktop\\projtrial\\demo.py::Book": {
+      "file_path": "C:\\Desktop\\projtrial\\demo.py",
+      "class_name": "Book",
+      "summary": "This Python code defines a `Book` class with attributes like title, author, ISBN, and availability status. It includes an `__init__` method to initialize book objects and a `__str__` method to provide a user-friendly string representation of a book's details and availability."
+    },
+    "C:\\Desktop\\projtrial\\demo.py::Member": {
+      "file_path": "C:\\Desktop\\projtrial\\demo.py",
+      "class_name": "Member",
+      "summary": "This code defines a `Member` class to represent a library member, allowing them to borrow and return books, and track their borrowed books with due dates. It manages book availability and provides methods to display the member's current borrowed books."
+    },
+    "C:\\Desktop\\projtrial\\demo.py::Library": {
+      "file_path": "C:\\Desktop\\projtrial\\demo.py",
+      "class_name": "Library",
+      "summary": "This code defines a `Library` class that manages a collection of books and members. It provides methods to add books and members, list all books in the catalog, and find a specific book by its ISBN."
+    }
+  },
+  "methods": {}
+}
