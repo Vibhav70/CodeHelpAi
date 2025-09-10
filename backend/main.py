@@ -50,7 +50,7 @@ app.add_middleware(
 app.include_router(query_routes.router, prefix="/api", tags=["Query"])
 app.include_router(auth_routes.router, prefix="/api", tags=["Auth"])
 # app.include_router(history_routes.router, prefix="/api", tags=["History"])
-app.include_router(ingestion_routes.router, prefix='/api', tags=["Summarize & Ingest"])
+# app.include_router(ingestion_routes.router, prefix='/api', tags=["Summarize & Ingest"])
 # app.include_router(summarize_changes.router, prefic="/api", tags=["summarize_changes"])
 app.include_router(project_routes2.router, prefix="/api", tags=["Project Actions"])
 
