@@ -4,10 +4,39 @@ from backend.db import db_models
 # Import your Pydantic models (for type hinting and data validation)
 import backend.schemas as pydantic_models 
 
-# --- User CRUD Functions (You likely have these already) ---
+#-------------------------USER CRUD FUNCTIONS-------------------------#
 
 def get_user_by_username(db: Session, username: str):
+    """Retrieve a single user by their username."""
     return db.query(db_models.User).filter(db_models.User.username == username).first()
+
+def get_user_by_id(db: Session, user_id: int):
+    """Retrieve a single user by their ID."""
+    return db.query(db_models.User).filter(db_models.User.id == user_id).first()
+
+def get_users(db: Session, skip: int = 0, limit: int = 100):
+    """Retrieve a list of all users."""
+    return db.query(db_models.User).offset(skip).limit(limit).all()
+
+def create_user(db: Session, username: str, hashed_password: str):
+    """
+    Create a new user in the database.
+    Note: The role will default to 'user' as defined in the db_models.py.
+    The create_admin.py script is the only place that should set the 'admin' role.
+    """
+    db_user = db_models.User(username=username, hashed_password=hashed_password)
+    db.add(db_user)
+    db.commit()
+    db.refresh(db_user)
+    return db_user
+
+def delete_user(db: Session, user_id: int):
+    """Delete a user from the database by their ID."""
+    db_user = db.query(db_models.User).filter(db_models.User.id == user_id).first()
+    if db_user:
+        db.delete(db_user)
+        db.commit()
+    return db_user
 
 # --- QueryHistory CRUD Functions ---
 

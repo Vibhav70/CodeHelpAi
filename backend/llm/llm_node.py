@@ -8,7 +8,7 @@ from backend.summarizer.models import FileSummary
 llm = ChatGoogleGenerativeAI(
     model="gemini-2.0-flash",
     temperature=0,
-    max_output_tokens=500 # Increased token limit for larger JSON output
+    max_output_tokens=500 
 )
 
 # --- JSON Parser Setup ---

@@ -4,6 +4,13 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from .database import Base
 
+import enum
+
+class UserRole(str, enum.Enum):
+    ADMIN = "admin"
+    USER = "user"
+
+
 class User(Base):
     __tablename__ = "users"
 
@@ -11,8 +18,7 @@ class User(Base):
     username = Column(String, unique=True, index=True, nullable=False)
     hashed_password = Column(String, nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
-
-    # Relationship to QueryHistory
+    role = Column(String, default=UserRole.USER, nullable=False)
     history = relationship("QueryHistory", back_populates="owner")
 
     projects = relationship("Project", back_populates="owner", cascade="all, delete-orphan")
