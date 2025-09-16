@@ -9,6 +9,7 @@ class FunctionSummary(BaseModel):
     file_path: str
     function_name: str
     summary: str
+    source_code: str 
 
 class ClassSummary(BaseModel):
     """
@@ -18,6 +19,7 @@ class ClassSummary(BaseModel):
     file_path: str
     class_name: str
     summary: str
+    source_code: str 
 
 class MethodSummary(BaseModel):
     """
@@ -27,3 +29,4 @@ class MethodSummary(BaseModel):
     class_name: str
     method_name: str
     summary: str
+    source_code: str 

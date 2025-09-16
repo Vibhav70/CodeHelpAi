@@ -36,13 +36,13 @@ def format_summaries_for_ingestion(db_data: Dict[str, Any]) -> List[Dict[str, An
                 metadata = {}
                 if item_type == 'function' and len(parts) == 2:
                     file_path, func_name = parts
-                    metadata = {"source": file_path, "type": "function", "name": func_name}
+                    metadata = {"source": file_path, "type": "function", "name": func_name, "source_code": summary_object.get('source_code', '')}
                 elif item_type == 'class' and len(parts) == 2:
                     file_path, class_name = parts
-                    metadata = {"source": file_path, "type": "class", "name": class_name}
+                    metadata = {"source": file_path, "type": "class", "name": class_name, "source_code": summary_object.get('source_code', '')}
                 elif item_type == 'method' and len(parts) == 3:
                     file_path, class_name, method_name = parts
-                    metadata = {"source": file_path, "type": "method", "class": class_name, "name": method_name}
+                    metadata = {"source": file_path, "type": "method", "class": class_name, "name": method_name, "source_code": summary_object.get('source_code', '')}
                 else:
                     raise ValueError("Malformed key")
                 

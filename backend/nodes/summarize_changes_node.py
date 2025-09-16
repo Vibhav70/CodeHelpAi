@@ -93,8 +93,8 @@ async def create_summary_task(item: Any, file_path: str, item_type: str, class_n
     """Helper function to create a specific summary object after LLM call."""
     summary_text = await summarize_code_with_llm(item.source_code)
     if item_type == 'function':
-        return FunctionSummary(file_path=file_path, function_name=item.name, summary=summary_text)
+        return FunctionSummary(file_path=file_path, function_name=item.name, summary=summary_text, source_code=item.source_code)
     elif item_type == 'class':
-        return ClassSummary(file_path=file_path, class_name=item.name, summary=summary_text)
+        return ClassSummary(file_path=file_path, class_name=item.name, summary=summary_text, source_code=item.source_code)
     elif item_type == 'method':
-        return MethodSummary(file_path=file_path, class_name=class_name, method_name=item.name, summary=summary_text)
+        return MethodSummary(file_path=file_path, class_name=class_name, method_name=item.name, summary=summary_text, source_code=item.source_code)
