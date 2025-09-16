@@ -36,6 +36,10 @@ def format_context_for_llm(search_results: List[Dict[str, Any]]) -> str:
         # Add class name if it's a method
         if metadata.get('type') == 'method':
             context_str += f"Class: {metadata.get('class', 'N/A')}\n"
+        
+        if metadata.get('source_code'):
+            context_str += "Full Source Code:\n"
+            context_str += f"```python\n{metadata['source_code']}\n```\n"
             
         context_str += f"Name: {metadata.get('name', 'N/A')}\n"
         context_str += f"Summary: {result['text']}\n"
