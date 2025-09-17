@@ -52,18 +52,58 @@ def get_user_queries(db: Session, user_id: int, skip: int = 0, limit: int = 100)
              .limit(limit)\
              .all()
 
+# def create_user_query(db: Session, query: pydantic_models.QueryHistoryCreate):
+#     """
+#     Create and store a new QueryHistory record.
+#     """
+#     # Create a SQLAlchemy model instance from the Pydantic model data
+#     db_query = db_models.QueryHistory(
+#         question=query.question,
+#         answer=query.answer,
+#         user_id=query.user_id,
+#         project_id=query.project_id
+#     )
+#     db.add(db_query)
+#     db.commit()
+#     db.refresh(db_query)
+#     return db_query
+
+
+#-------------------------PROJECT CRUD FUNCTIONS (NEW)-------------------------#
+
+def create_project(db: Session, project: pydantic_models.ProjectCreate, user_id: int):
+    """Create a new project for a specific user."""
+    db_project = db_models.Project(**project.model_dump(), user_id=user_id)
+    db.add(db_project)
+    db.commit()
+    db.refresh(db_project)
+    return db_project
+
+def get_project(db: Session, project_id: int, user_id: int):
+    """Retrieve a single project, ensuring it belongs to the specified user."""
+    return db.query(db_models.Project).filter(
+        db_models.Project.id == project_id,
+        db_models.Project.user_id == user_id
+    ).first()
+
+def get_projects_by_user(db: Session, user_id: int):
+    """Retrieve all projects for a specific user."""
+    return db.query(db_models.Project).filter(db_models.Project.user_id == user_id).all()
+
+
+#-------------------------QUERY HISTORY CRUD FUNCTIONS (UPDATED)-------------------------#
+
 def create_user_query(db: Session, query: pydantic_models.QueryHistoryCreate):
-    """
-    Create and store a new QueryHistory record.
-    """
-    # Create a SQLAlchemy model instance from the Pydantic model data
-    db_query = db_models.QueryHistory(
-        question=query.question,
-        answer=query.answer,
-        user_id=query.user_id,
-        project_id=query.project_id
-    )
+    """Create and store a new QueryHistory record."""
+    db_query = db_models.QueryHistory(**query.model_dump())
     db.add(db_query)
     db.commit()
     db.refresh(db_query)
     return db_query
+
+def get_history_by_project(db: Session, project_id: int, user_id: int):
+    """Retrieve all query history for a specific project, ensuring user ownership."""
+    return db.query(db_models.QueryHistory).filter(
+        db_models.QueryHistory.project_id == project_id,
+        db_models.QueryHistory.user_id == user_id
+    ).order_by(db_models.QueryHistory.timestamp.asc()).all()

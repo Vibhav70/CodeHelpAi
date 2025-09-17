@@ -19,7 +19,7 @@ class Project(ProjectBase):
     created_at: datetime
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 # --- Pydantic Models for Query History ---
@@ -45,7 +45,7 @@ class QueryHistory(QueryHistoryBase):
     timestamp: datetime
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 # --- Pydantic Models for User ---

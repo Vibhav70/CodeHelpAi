@@ -1,66 +1,68 @@
-from fastapi import APIRouter, Depends, HTTPException, status, Body
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from typing import Dict, Any
+from typing import List
 
-from backend.db import crud, db_models
-from backend.core.auth_utils import get_current_user
+# Import your project-specific modules
 from backend.db.database import get_db
-from graph_incremental import create_incremental_ingestion_graph
-from graph_query import create_query_graph
-
-# Build graphs on startup
-incremental_graph = create_incremental_ingestion_graph()
-query_graph = create_query_graph()
+from backend.db import crud
+from backend.core import auth_utils
+from backend.db import db_models
+from backend import schemas as pydantic_models
+from backend.graph_query import create_query_graph # Import the RAG graph
 
 router = APIRouter(
     prefix="/api/projects/{project_id}",
     tags=["Project Actions"],
-    dependencies=[Depends(get_current_user)]
+    dependencies=[Depends(auth_utils.get_current_user)]
 )
 
-def get_project_and_verify_owner(project_id: int, db: Session, current_user: db_models.User):
-    """Helper to get a project and verify the current user owns it."""
-    project = crud.get_project(db, project_id=project_id, user_id=current_user.id)
-    if not project:
-        raise HTTPException(status_code=404, detail="Project not found or you do not have permission")
-    return project
+# Compile the RAG graph when the router is initialized
+query_app = create_query_graph()
 
-@router.post("/ingest", status_code=status.HTTP_202_ACCEPTED)
-async def run_project_ingestion(
-    project_id: int,
-    directory: str = Body(..., embed=True),
-    db: Session = Depends(get_db),
-    current_user: db_models.User = Depends(get_current_user)
-):
-    """
-    Run the incremental ingestion and summarization pipeline for a specific project.
-    """
-    get_project_and_verify_owner(project_id, db, current_user)
-
-    initial_state = {"project_id": project_id, "directory": directory}
-    
-    # Asynchronously invoke the ingestion graph.
-    await incremental_graph.ainvoke(initial_state)
-
-    return {"message": f"Ingestion process started for project {project_id}."}
-
-@router.post("/ask", response_model=Dict[str, Any])
+@router.post("/ask", response_model=pydantic_models.QueryHistory)
 async def ask_project_question(
     project_id: int,
-    question: str = Body(..., embed=True),
+    request: pydantic_models.QueryHistoryBase, # Use a simple model for the question
     db: Session = Depends(get_db),
-    current_user: db_models.User = Depends(get_current_user)
+    current_user: db_models.User = Depends(auth_utils.get_current_user)
 ):
     """
-    Ask a question about the codebase of a specific project.
+    Receives a question for a project, gets an answer from the RAG pipeline,
+    and saves the conversation to the history.
     """
-    get_project_and_verify_owner(project_id, db, current_user)
+    project = crud.get_project(db, project_id=project_id, user_id=current_user.id)
+    if not project:
+        raise HTTPException(status_code=404, detail="Project not found.")
 
-    initial_state = {"project_id": project_id, "question": question}
-    final_state = await query_graph.ainvoke(initial_state)
+    # Invoke the RAG graph to get an answer
+    inputs = {"project_id": project_id, "question": request.question}
+    final_state = await query_app.ainvoke(inputs)
     answer = final_state.get("answer", "Could not generate an answer.")
+
+    # Save the new question and answer to the history
+    history_to_create = pydantic_models.QueryHistoryCreate(
+        question=request.question,
+        answer=answer,
+        user_id=current_user.id,
+        project_id=project_id
+    )
+    new_history_entry = crud.create_user_query(db=db, query=history_to_create)
+    return new_history_entry
+
+
+@router.get("/history", response_model=List[pydantic_models.QueryHistory])
+def get_project_conversation_history(
+    project_id: int,
+    db: Session = Depends(get_db),
+    current_user: db_models.User = Depends(auth_utils.get_current_user)
+):
+    """
+    Retrieves the full conversation history for a specific project.
+    """
+    project = crud.get_project(db, project_id=project_id, user_id=current_user.id)
     
-    # Log the query to the user's general history
-    crud.create_user_query(db, user_id=current_user.id, question=question, answer=answer)
-    
-    return {"answer": answer}
+    if not project:
+        raise HTTPException(status_code=404, detail="Project not found.")
+        
+    return crud.get_history_by_project(db, project_id=project_id, user_id=current_user.id)
+

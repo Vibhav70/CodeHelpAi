@@ -9,7 +9,7 @@ from backend.db.database import get_db
 from backend import schemas as pydantic_models
 
 router = APIRouter(
-    prefix="/admin",
+    prefix="/api/admin",
     tags=["Admin"],
     dependencies=[Depends(auth_utils.get_current_admin_user)] # Protect all routes
 )

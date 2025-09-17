@@ -1,49 +1,46 @@
-// src/App.jsx
-
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Toaster } from 'react-hot-toast';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
+import Navbar from './components/Navbar';
+import LoginPage from './pages/LoginPage';
+import DashboardPage from './pages/DashboardPage'; // 1. Import the new dashboard page
+import ProjectChatPage from './pages/ProjectChatPage';
 
-// Import your components
-import Navbar from './components/Navbar.jsx';
-import IngestPage from './pages/IngestPage.jsx';
-import QueryPage from './pages/QueryPage.jsx';
-import Footer from './components/Footer.jsx'; // Import the new Footer
-
-// A simple placeholder for the Home page
-const HomePage = () => (
-  <div className="flex h-[calc(100vh-8rem)] items-center justify-center bg-gray-900 text-white">
-    <div className="text-center">
-      <h1 className="text-5xl font-bold">Welcome to Code Intelligence</h1>
-      <p className="mt-4 text-xl text-gray-400">Your AI-powered codebase assistant.</p>
-    </div>
-  </div>
-);
+// A wrapper for routes that require authentication
+const PrivateRoute = ({ children }) => {
+  const { isAuthenticated } = useAuth();
+  return isAuthenticated ? children : <Navigate to="/login" />;
+};
 
 function App() {
   return (
-    <Router>
-      <div className="flex min-h-screen flex-col">
-        <Toaster
-          position="bottom-right"
-          toastOptions={{
-            style: {
-              background: '#334155', // bg-slate-700
-              color: '#fff',
-            },
-          }}
-        />
-        <Navbar />
-        <main className="flex-grow">
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/ingest" element={<IngestPage />} />
-            <Route path="/query" element={<QueryPage />} />
-          </Routes>
-        </main>
-        <Footer />
-      </div>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <div className="flex flex-col min-h-screen bg-gray-50">
+          <Navbar />
+          <main className="flex-grow">
+            <Routes>
+              <Route path="/login" element={<LoginPage />} />
+              <Route 
+                path="/" 
+                element={
+                  <PrivateRoute>
+                    {/* 2. Use the new DashboardPage here */}
+                    <DashboardPage /> 
+                  </PrivateRoute>
+                } 
+              />
+              <Route path="/projects/:projectId" element={
+                <PrivateRoute>
+                  <ProjectChatPage />
+                </PrivateRoute>
+              } />
+              {/* You can add more routes here later */}
+            </Routes>
+          </main>
+        </div>
+      </Router>
+    </AuthProvider>
   );
 }
 
