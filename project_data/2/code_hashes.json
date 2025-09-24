@@ -1,0 +1,51 @@
+{
+  "D:\\Projects\\demo2\\main.py": {
+    "functions": {},
+    "classes": {
+      "Book": {
+        "source_hash": "e9eefb70edaea8b6ea47f1177210d0b2497fea29c5217c1eaa5a073740f4be44",
+        "methods": {
+          "__init__": "b537a39fe94f262524fa5eb360b2d20e11ce645c6426aa47bdbc6a0327974388",
+          "display_info": "21863c9dbc0e8d4ac01f88cbb57fa799eedd8d21050ee9f2f743fdc80c738c66",
+          "is_available": "03bd6fde4e07c8b1a974a1f4fbc62010b5773931c64c145bbcbc1dcd769d6eb7",
+          "borrow": "697380a2dbd5e5e076270b0ca743d3c7c7bd8cc46769e3fe740bbc64c08c19ed",
+          "return_book": "b57f91e05d5066768e2febea61cef88b98ba6fbc0ab05211568531d83afd20c4"
+        }
+      },
+      "Library": {
+        "source_hash": "7cb40e6f436edee1112a28a1fba584d617665e2579baf778c978fb33f31f8875",
+        "methods": {
+          "__init__": "5af6417316aa30823076e1d94dac3f79833b634494236291056a0c731358e8dc",
+          "add_book": "c74b4424d1d54394c6390a2afe303d115b3a5317816e6b07103af8d035c9ad63",
+          "show_all_books": "8cc85848216017b3bcaa136f7fcc26c0f609827c5845bd93d8c9f8c11a2ec710",
+          "find_book": "3b589831a4c027de2c649bac0b5a96f75d2465c31e4d38b826df3cdeb5f506b9",
+          "borrow_book": "b670b583dc32e14cb4b4a34e7c9bcd8a2ab71c7e135de17b0e9e8052a732e12c",
+          "return_book": "2009fb7f2c895d81afc19cb8cd82bf770e5879438afa532ece48dbadcbfbf17d"
+        }
+      }
+    }
+  },
+  "D:\\Projects\\demo2\\main2.py": {
+    "functions": {},
+    "classes": {
+      "Vehicle": {
+        "source_hash": "ea1da244870b197c3fe7909ba849ab7065f58f6ed6e412c0aeb507ef06faa580",
+        "methods": {
+          "__init__": "6058f40e5fc49cf50c29dbe04d95db288c6d873b07fc833f671945744d598b19",
+          "start_engine": "553e08fc8868e881508d295804fdf30caf003be5ad5b897d694c417b85bf999b",
+          "stop_engine": "396d2278bdf6c6a5a34ab5eb1aab98f6f590520ddb0cc522bffc93fb024ad57c",
+          "display_info": "243e06dedc1db01a149d3e5dc7a8dd7c19c2f12199c0abf102faa444a5e14c0a"
+        }
+      },
+      "ElectricVehicle": {
+        "source_hash": "ec15795c0b7ec0effe44f0535d22628d3b14bb93834d095be21e21494ffc57e9",
+        "methods": {
+          "__init__": "e583b4ef700876d87b38212ba5243786c2c30a069a693f3dfc169e427f58e3a8",
+          "charge_battery": "bd887b0147a57a610b4a6eab77ef3228d6dee508585dd5aabf5bcf2321a8f2fc",
+          "drive": "ca679f6481574cee5dc2cf8ef992f42a7a2b12ee4f8fc43ed8084c7d9e0c5229",
+          "display_info": "f8ebe99467282a604d2a6eae7f584e0d4d8fed3861f57b0da5f3aae8acc1d318"
+        }
+      }
+    }
+  }
+}

@@ -9,7 +9,7 @@ router = APIRouter(
     prefix="/api/auth",
     tags=["Authentication"]
 )
-
+ 
 @router.post("/login")
 def login_for_access_token(
     form_data: OAuth2PasswordRequestForm = Depends(),

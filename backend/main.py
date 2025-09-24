@@ -4,7 +4,7 @@ load_dotenv()
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 # from backend.api import parse_routes, diff_routes, summary_routes, query_routes, auth_routes, history_routes
-from backend.api import ingestion_routes, auth_routes, query_routes, projects_routes, admin_routes,projects_query_routes
+from backend.api import ingestion_routes, auth_routes, query_routes, projects_routes, admin_routes,projects_query_routes,summary_routes
 from sqlalchemy.orm import Session
 
 from backend.db import db_models
@@ -42,19 +42,11 @@ app.add_middleware(
     allow_headers=["*"], # Allow all headers
 )
 
-# Include the new routers. All routes will be available under the /api prefix.
-# For example, the parse endpoint will be at http://localhost:8000/api/parse
-# app.include_router(parse_routes.router, prefix="/api", tags=["Parsing"])
-# app.include_router(diff_routes.router, prefix="/api", tags=["Diffing"])
-# app.include_router(summary_routes.router, prefix="/api", tags=["Summarize"])
-app.include_router(query_routes.router, prefix="/api", tags=["Query"])
+app.include_router(summary_routes.router)
+app.include_router(query_routes.router)
 app.include_router(auth_routes.router)
 app.include_router(admin_routes.router)
-# app.include_router(history_routes.router, prefix="/api", tags=["History"])
-# app.include_router(ingestion_routes.router, prefix='/api', tags=["Summarize & Ingest"])
-# app.include_router(summarize_changes.router, prefic="/api", tags=["summarize_changes"])
 app.include_router(projects_routes.router)
-app.include_router(projects_query_routes.router)
 
 @app.get("/health")
 def read_health():
@@ -67,3 +59,9 @@ def read_health():
 # To run this application:
 # 1. Make sure you are in the `backend` directory.
 # 2. Run the command: uvicorn main:app --reload
+
+#
+# Notes
+
+# ingest endpoint - end to end change detection -> summarization -> vector store update
+# upload summaries endpoint - upload summaries to vector store first time

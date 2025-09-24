@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
+from typing import List
 
 # Import the LangGraph applications
 from backend import graph_incremental2 as incremental_app
@@ -15,7 +16,7 @@ from backend.db import db_models
 from backend import schemas as pydantic_models
 from backend.vectorstore.ingest import ingest_summaries_to_vector_store
 
-# --- Pydantic Models for Request Bodies ---
+# ---  Pydantic Models for Request Bodies ---
 
 class IngestRequest(BaseModel):
     directory: str
@@ -30,6 +31,7 @@ class UploadResponse(BaseModel):
 # --- API Router for Project-Specific Actions ---
 router = APIRouter(
     prefix="/api/projects/{project_id}",
+    tags=["Query & Ingest"],
     dependencies=[Depends(get_current_user)] # Protect all routes
 )
 
@@ -70,7 +72,7 @@ async def run_project_ingestion(
 
 
 # --- Query Endpoint ---
-@router.post("/ask")
+@router.post("/ask", response_model=pydantic_models.QueryHistory)
 async def ask_question(
     project_id: int,
     request: AskRequest,
@@ -105,9 +107,9 @@ async def ask_question(
             user_id=current_user.id,
             project_id=project_id
         )
-        history_crud.create_user_query(db=db, query=history_data)
+        new_history_data = history_crud.create_user_query(db=db, query=history_data)
 
-        return {"answer": answer}
+        return new_history_data
 
     except Exception as e:
         error_detail = f"An error occurred during query graph execution: {e}"
@@ -138,4 +140,21 @@ async def upload_project_summaries(
         error_detail = f"Failed to upload summaries to vector DB: {e}"
         print(error_detail)
         raise HTTPException(status_code=500, detail=error_detail)
+
+
+@router.get("/history", response_model=List[pydantic_models.QueryHistory])
+def get_project_conversation_history(
+    project_id: int,
+    db: Session = Depends(get_db),
+    current_user: db_models.User = Depends(get_current_user)
+):
+    """
+    Retrieves the full conversation history for a specific project.
+    """
+    project = project_crud.get_project(db, project_id=project_id, user_id=current_user.id)
+    
+    if not project:
+        raise HTTPException(status_code=404, detail="Project not found.")
+        
+    return history_crud.get_history_by_project(db, project_id=project_id, user_id=current_user.id)
 

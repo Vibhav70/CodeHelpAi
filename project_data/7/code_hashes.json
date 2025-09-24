@@ -1,0 +1,97 @@
+{
+  "D:\\Projects\\Xbot\\x_agent\\config.py": {
+    "functions": {},
+    "classes": {
+      "Config": {
+        "source_hash": "8ba905368c34bd14a7c719038c9cc79986eaa72d472e743d117b211c8b154d26",
+        "methods": {
+          "validate": "da810d3319ba268532e0e2dc9624d344ec2ba33a81666e195e0d6e98bacb4234"
+        }
+      }
+    }
+  },
+  "D:\\Projects\\Xbot\\x_agent\\main.py": {
+    "functions": {},
+    "classes": {}
+  },
+  "D:\\Projects\\Xbot\\x_agent\\api\\models.py": {
+    "functions": {},
+    "classes": {}
+  },
+  "D:\\Projects\\Xbot\\x_agent\\api\\endpoints\\trigger.py": {
+    "functions": {},
+    "classes": {}
+  },
+  "D:\\Projects\\Xbot\\x_agent\\api\\endpoints\\webhook.py": {
+    "functions": {},
+    "classes": {}
+  },
+  "D:\\Projects\\Xbot\\x_agent\\core\\workflows.py": {
+    "functions": {
+      "check_approval": "a82915cc42acbb0ea10c8423bbe2147b5eb7a2c525b34f25a4d8407bbfa216c0"
+    },
+    "classes": {
+      "State": {
+        "source_hash": "1921dc18c2062c076d722a6d0f82fda05cfa8e567eb2a8dc2f01355132b3b2d4",
+        "methods": {}
+      }
+    }
+  },
+  "D:\\Projects\\Xbot\\x_agent\\core\\agents\\filter_agent.py": {
+    "functions": {},
+    "classes": {
+      "TrendFilter": {
+        "source_hash": "606a8cc924dd61103dd8b1262ceae3b370c9eb1667515980c5429c40cc69bb17",
+        "methods": {
+          "filter": "cff94fcb7a185ba809c7a0626012efbbf1e163b6708f8b01aff0493e183f5812"
+        }
+      }
+    }
+  },
+  "D:\\Projects\\Xbot\\x_agent\\core\\agents\\research_agent.py": {
+    "functions": {},
+    "classes": {
+      "ResearchAgent": {
+        "source_hash": "ec9aaa1baedd819776ba5ad223b03c6d8053036939fdea78a0d531472148dd0e",
+        "methods": {
+          "__init__": "1d42e2f1584cc24cad82a17e77108963831d897afd968f01efab0fea8df1611b"
+        }
+      }
+    }
+  },
+  "D:\\Projects\\Xbot\\x_agent\\core\\agents\\trend_agent.py": {
+    "functions": {},
+    "classes": {
+      "TrendAgent": {
+        "source_hash": "bfe4097ae09ce0e4a04c27ec140e82aa7c2c0a8d520ef3c55fd57603866ce954",
+        "methods": {
+          "__init__": "ca6109b4ede18c93e242b31b19d06639fad4d253e25d7f67e5db5dbba9b0047d",
+          "get_trends": "f914434775c8fef27ee10cc26966e59c037445e69a154f380609fa3c47df3664",
+          "_filter_trends": "336ea14820d3a39a8492c59d858a2d88b0323271f921691c8aba3c763d94bfd5"
+        }
+      }
+    }
+  },
+  "D:\\Projects\\Xbot\\x_agent\\core\\agents\\tweet_agent.py": {
+    "functions": {},
+    "classes": {
+      "GeminiAgent": {
+        "source_hash": "ca05f2e83e3488ab5fd43139c690a640636451367a828aef68738ebc5b484289",
+        "methods": {
+          "__init__": "325428a94117c07f0e347dd012e7fbd845cbcf5c3255fe8ec79cb100b4ba153e"
+        }
+      }
+    }
+  },
+  "D:\\Projects\\Xbot\\x_agent\\services\\telegram.py": {
+    "functions": {},
+    "classes": {
+      "TelegramBot": {
+        "source_hash": "1172443447e614578f0bbc85bac2a7b493c96f96e519ae92fcd2a2cb4ac8dd0a",
+        "methods": {
+          "__init__": "d148bdb22420f92952a7443e5e12f0055eefc0a530764ab2113fb78079cb0081"
+        }
+      }
+    }
+  }
+}

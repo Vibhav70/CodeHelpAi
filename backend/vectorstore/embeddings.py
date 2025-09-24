@@ -24,9 +24,6 @@ from langchain_community.embeddings import HuggingFaceEmbeddings
 import chromadb
 from chromadb.utils import embedding_functions
 
-# --- Configuration ---
-# We specify the name of the local model we want to use from the Hugging Face hub.
-# "all-MiniLM-L6-v2" is a very popular and high-performing model that runs locally.
 EMBEDDING_MODEL_NAME = "all-MiniLM-L6-v2"
 
 

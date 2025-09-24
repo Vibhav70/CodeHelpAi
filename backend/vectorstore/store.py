@@ -1,11 +1,7 @@
 import chromadb
 from typing import List, Dict, Any
-
-# Import our configuration and embedding utility
 from .config import CHROMA_DB_PATH
 from backend.vectorstore.embeddings import get_embedding
-
-# Import the LangChain Document object for type hinting and consistency
 from langchain_core.documents import Document
 
 class VectorStore:
