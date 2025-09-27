@@ -31,11 +31,12 @@ def create_project(db: Session, project: pydantic_models.ProjectCreate, user_id:
     db.refresh(db_project)
     return db_project
 
-def get_project(db: Session, project_id: int, user_id: int):
+def get_project(db: Session, project_id: int, user_id: int, project_name: str = None):
     """Retrieve a single project by its ID, ensuring it belongs to the user."""
     return db.query(db_models.Project).filter(
         db_models.Project.id == project_id,
-        db_models.Project.user_id == user_id
+        db_models.Project.user_id == user_id,
+        db_models.Project.name == project_name if project_name else True
     ).first()
 
 def get_projects_by_user(db: Session, user_id: int):

@@ -36,6 +36,7 @@ class QueryHistory(Base):
 
     # Relationship to User
     owner = relationship("User", back_populates="history")
+    project = relationship("Project", back_populates="query_history")
 
 class Project(Base):
     __tablename__ = "projects"
@@ -48,3 +49,14 @@ class Project(Base):
 
     # Relationship back to the User
     owner = relationship("User", back_populates="projects")
+    query_history = relationship("QueryHistory", back_populates="project", cascade="all, delete-orphan")
+    documentation = relationship("ProjectDocumentation", back_populates="project", cascade="all, delete-orphan")
+
+
+class ProjectDocumentation(Base):
+    __tablename__ = "project_documentation"
+    id = Column(Integer, primary_key=True, index=True)
+    content = Column(Text, nullable=False) # Stores the generated Markdown
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    project_id = Column(Integer, ForeignKey("projects.id"), nullable=False, unique=True)
+    project = relationship("Project", back_populates="documentation")

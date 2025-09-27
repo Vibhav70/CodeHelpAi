@@ -4,6 +4,22 @@ from pydantic import BaseModel
 from datetime import datetime
 from typing import List, Optional
 
+
+class ProjectDocumentationBase(BaseModel):
+    content: str
+
+class ProjectDocumentationCreate(ProjectDocumentationBase):
+    pass
+
+class ProjectDocumentation(ProjectDocumentationBase):
+    id: int
+    project_id: int
+    created_at: datetime
+    class Config:
+        from_attributes = True
+
+
+
 # --- Pydantic Models for Project ---
 
 class ProjectBase(BaseModel):
@@ -17,7 +33,7 @@ class Project(ProjectBase):
     id: int
     user_id: int
     created_at: datetime
-
+    documentation: Optional[ProjectDocumentation] = None 
     class Config:
         from_attributes = True
 

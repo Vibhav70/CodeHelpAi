@@ -4,7 +4,7 @@ load_dotenv()
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 # from backend.api import parse_routes, diff_routes, summary_routes, query_routes, auth_routes, history_routes
-from backend.api import ingestion_routes, auth_routes, query_routes, projects_routes, admin_routes,projects_query_routes,summary_routes
+from backend.api import auth_routes, query_routes, projects_routes, admin_routes,summary_routes, documentation_routes
 from sqlalchemy.orm import Session
 
 from backend.db import db_models
@@ -47,6 +47,7 @@ app.include_router(query_routes.router)
 app.include_router(auth_routes.router)
 app.include_router(admin_routes.router)
 app.include_router(projects_routes.router)
+app.include_router(documentation_routes.router)
 
 @app.get("/health")
 def read_health():
