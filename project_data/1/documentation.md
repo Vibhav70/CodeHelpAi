@@ -165,7 +165,7 @@
 
 <div class="project-overview">
 <h2>🚀 Project Overview</h2>
-<div class="summary-text">The code defines two classes: `BankAccount` to simulate bank account operations like deposit, withdraw, and balance check, and `Student` to manage student data, calculate average marks, assign grades, and display information.</div>
+<div class="summary-text"></div>
 </div>
 
 <div class="toc-container">

@@ -50,7 +50,7 @@ class Project(Base):
     # Relationship back to the User
     owner = relationship("User", back_populates="projects")
     query_history = relationship("QueryHistory", back_populates="project", cascade="all, delete-orphan")
-    documentation = relationship("ProjectDocumentation", back_populates="project", cascade="all, delete-orphan")
+    documentation = relationship("ProjectDocumentation", back_populates="project", cascade="all, delete-orphan",uselist=False )
 
 
 class ProjectDocumentation(Base):

@@ -67,5 +67,34 @@ export const askQuestion = (projectId, question) => {
   });
 };
 
-export default apiClient;
 
+// --- Documentation Endpoints ---
+export const viewDocumentation = (projectId) => {
+  const token = localStorage.getItem('authToken');
+  return apiClient.get(`/projects/${projectId}/documentation/view`,{ headers: {
+      Authorization: `Bearer ${token}`,
+    },});
+};
+
+export const downloadDocumentation = async (projectId, projectName) => {
+  const token = localStorage.getItem('authToken');
+
+  const response = await apiClient.get(`/projects/${projectId}/documentation/download`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    responseType: 'blob', // Important: tells axios to handle the response as a file
+  });
+
+  // Create a link element to trigger the download
+  const url = window.URL.createObjectURL(new Blob([response.data]));
+  const link = document.createElement('a');
+  link.href = url;
+  // Set the filename for the download
+  link.setAttribute('download', `documentation_${projectName.replace(" ", "_")}.md`);
+  document.body.appendChild(link);
+  link.click();
+  link.remove(); // Clean up by removing the link
+};
+
+export default apiClient;

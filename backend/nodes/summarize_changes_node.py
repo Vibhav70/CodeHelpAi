@@ -14,7 +14,7 @@ from backend.parser.parser import parse_file
 # --- Configuration for Rate Limiting ---
 # Delay in seconds between each API call to avoid hitting rate limits.
 # A value of 1.1 means we are making slightly less than 60 calls per minute.
-API_CALL_DELAY = 1.1
+API_CALL_DELAY = 4.1
 
 # --- Real LLM Utility ---
 llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash", temperature=0.2)

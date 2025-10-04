@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-
+from fastapi.responses import Response
+import re
 # Import your modules
 from backend.db.database import get_db
 from backend.crud import project_crud
@@ -48,7 +49,7 @@ def generate_and_save_docs(
     print(f"--- Documentation for project '{project.name}' saved successfully. ---")
     return db_documentation
 
-@router.get("/", response_model=pydantic_models.ProjectDocumentation)
+@router.get("/view", response_model=pydantic_models.ProjectDocumentation)
 def get_project_docs(
     project_id: int,
     db: Session = Depends(get_db),
@@ -66,3 +67,28 @@ def get_project_docs(
         raise HTTPException(status_code=404, detail="No documentation has been generated for this project yet.")
         
     return documentation
+
+@router.get("/download")
+def download_documentation(
+    project_id: int,
+    db: Session = Depends(get_db),
+    current_user: db_models.User = Depends(auth_utils.get_current_user)
+):
+    """
+    Downloads the generated documentation as a Markdown file.
+    """
+    project = project_crud.get_project(db, project_id=project_id, user_id=current_user.id)
+    if not project:
+        raise HTTPException(status_code=404, detail="Project not found.")
+    
+    db_doc = documentation_crud.get_documentation_by_project(db, project_id=project_id)
+    if not db_doc:
+        raise HTTPException(status_code=404, detail="Documentation not found.")
+
+    safe_filename = re.sub(r'[\\/*?:"<>|]', "", project.name).replace(" ", "_")
+    
+    headers = {
+        "Content-Disposition": f"attachment; filename={safe_filename}_docs.md"
+    }
+    
+    return Response(content=db_doc.content, media_type="text/markdown", headers=headers)

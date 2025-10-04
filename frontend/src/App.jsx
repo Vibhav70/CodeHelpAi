@@ -5,6 +5,7 @@ import Navbar from './components/Navbar';
 import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage'; // 1. Import the new dashboard page
 import ProjectChatPage from './pages/ProjectChatPage';
+import DocumentationPage from './pages/DocumentationPage';
 
 // A wrapper for routes that require authentication
 const PrivateRoute = ({ children }) => {
@@ -36,6 +37,7 @@ function App() {
                 </PrivateRoute>
               } />
               {/* You can add more routes here later */}
+              <Route path="/project/:projectId/docs" element={<PrivateRoute><DocumentationPage /></PrivateRoute>} />
             </Routes>
           </main>
         </div>

@@ -10,7 +10,7 @@
     "D:\\Projects\\demo2\\main.py::Library": {
       "file_path": "D:\\Projects\\demo2\\main.py",
       "class_name": "Library",
-      "summary": "This code defines a `Library` class that manages a collection of `Book` objects, allowing users to add books, display the catalog, find books by title, and borrow/return books. It provides basic library functionality such as adding, searching, borrowing, and returning books.",
+      "summary": "This code defines a `Library` class that manages a collection of `Book` objects, allowing users to add books, display the catalog, find books by title, and borrow/return books. It provides basic library functionalities like adding, searching, borrowing, and returning books.",
       "source_code": "class Library:\n    def __init__(self):\n        self.books = []\n\n    def add_book(self, book):\n        self.books.append(book)\n        print(f\"Added '{book.title}' to the library.\")\n\n    def show_all_books(self):\n        print(\"Library Catalog:\")\n        for book in self.books:\n            book.display_info()\n\n    def find_book(self, title):\n        for book in self.books:\n            if book.title.lower() == title.lower():\n                return book\n        return None\n\n    def borrow_book(self, title):\n        book = self.find_book(title)\n        if book:\n            book.borrow()\n        else:\n            print(f\"Book '{title}' not found in library.\")\n\n    def return_book(self, title):\n        book = self.find_book(title)\n        if book:\n            book.return_book()\n        else:\n            print(f\"Book '{title}' not found in library.\")\n"
     },
     "D:\\Projects\\demo2\\main2.py::Vehicle": {
@@ -22,16 +22,114 @@
     "D:\\Projects\\demo2\\main2.py::ElectricVehicle": {
       "file_path": "D:\\Projects\\demo2\\main2.py",
       "class_name": "ElectricVehicle",
-      "summary": "This code defines an `ElectricVehicle` class that inherits from a `Vehicle` class, representing an electric vehicle with attributes like battery capacity and level. It includes methods for charging the battery, simulating driving with battery consumption, and displaying vehicle information including battery details.",
+      "summary": "This code defines an `ElectricVehicle` class that inherits from a `Vehicle` class, representing an electric vehicle with attributes like battery capacity and level. It includes methods to charge the battery, simulate driving with battery consumption, and display vehicle information including battery details.",
       "source_code": "class ElectricVehicle(Vehicle):  # Inherits from Vehicle\n    def __init__(self, brand, model, battery_capacity):\n        super().__init__(brand, model)  # Call parent constructor\n        self.battery_capacity = battery_capacity\n        self.battery_level = 100  # Assume full charge\n\n    def charge_battery(self):\n        self.battery_level = 100\n        print(f\"{self.brand} {self.model} is now fully charged.\")\n\n    def drive(self, distance):\n        if self.battery_level <= 0:\n            print(f\"{self.brand} {self.model} has no battery left.\")\n        else:\n            used = min(distance * 0.5, self.battery_level)\n            self.battery_level -= used\n            print(f\"Drove {distance} km. Battery now at {self.battery_level:.1f}%.\")\n\n    def display_info(self):\n        super().display_info()\n        print(f\"Battery Capacity: {self.battery_capacity} kWh, Battery Level: {self.battery_level:.1f}%\")\n"
     }
   },
   "methods": {
+    "D:\\Projects\\demo2\\main.py::Book::__init__": {
+      "file_path": "D:\\Projects\\demo2\\main.py",
+      "class_name": "Book",
+      "method_name": "__init__",
+      "summary": "This code defines the constructor (`__init__`) for a class, likely representing a book. It initializes the book object with a title, author, and the number of copies available, storing these as attributes of the object.",
+      "source_code": "    def __init__(self, title, author, copies):\n        self.title = title\n        self.author = author\n        self.copies = copies\n"
+    },
+    "D:\\Projects\\demo2\\main.py::Book::display_info": {
+      "file_path": "D:\\Projects\\demo2\\main.py",
+      "class_name": "Book",
+      "method_name": "display_info",
+      "summary": "This Python code defines a method called `display_info` within a class, likely representing a book or similar item. When called, it prints the title, author, and number of available copies of the object in a formatted string.",
+      "source_code": "    def display_info(self):\n        print(f\"Title: {self.title}, Author: {self.author}, Copies Available: {self.copies}\")\n"
+    },
+    "D:\\Projects\\demo2\\main.py::Book::is_available": {
+      "file_path": "D:\\Projects\\demo2\\main.py",
+      "class_name": "Book",
+      "method_name": "is_available",
+      "summary": "This code defines a method `is_available` that checks if a resource (likely a book or item with multiple copies) is currently available. It returns `True` if the number of copies (`self.copies`) is greater than 0, indicating availability, and `False` otherwise.",
+      "source_code": "    def is_available(self):\n        return self.copies > 0\n"
+    },
+    "D:\\Projects\\demo2\\main.py::Book::borrow": {
+      "file_path": "D:\\Projects\\demo2\\main.py",
+      "class_name": "Book",
+      "method_name": "borrow",
+      "summary": "This code snippet defines a `borrow` method for a book object. It checks if the book is available (has copies) and, if so, decrements the number of copies and prints a success message; otherwise, it prints a message indicating the book is unavailable.",
+      "source_code": "    def borrow(self):\n        if self.is_available():\n            self.copies -= 1\n            print(f\"You borrowed '{self.title}'.\")\n        else:\n            print(f\"'{self.title}' is not available right now.\")\n"
+    },
+    "D:\\Projects\\demo2\\main.py::Book::return_book": {
+      "file_path": "D:\\Projects\\demo2\\main.py",
+      "class_name": "Book",
+      "method_name": "return_book",
+      "summary": "This code snippet defines a `return_book` method that increases the number of available copies of a book by one, simulating the return of a book. It also prints a confirmation message to the user indicating the book has been returned.",
+      "source_code": "    def return_book(self):\n        self.copies += 1\n        print(f\"You returned '{self.title}'.\")\n"
+    },
+    "D:\\Projects\\demo2\\main.py::Library::add_book": {
+      "file_path": "D:\\Projects\\demo2\\main.py",
+      "class_name": "Library",
+      "method_name": "add_book",
+      "summary": "This Python code snippet defines a method `add_book` that takes a `book` object as input and adds it to the `books` list, effectively adding the book to the library's collection. It also prints a confirmation message indicating the title of the added book.",
+      "source_code": "    def add_book(self, book):\n        self.books.append(book)\n        print(f\"Added '{book.title}' to the library.\")\n"
+    },
+    "D:\\Projects\\demo2\\main.py::Library::show_all_books": {
+      "file_path": "D:\\Projects\\demo2\\main.py",
+      "class_name": "Library",
+      "method_name": "show_all_books",
+      "summary": "This code snippet defines a method `show_all_books` that iterates through a list of `book` objects stored in `self.books` and calls the `display_info()` method on each book to print its information, effectively displaying the library's catalog.",
+      "source_code": "    def show_all_books(self):\n        print(\"Library Catalog:\")\n        for book in self.books:\n            book.display_info()\n"
+    },
+    "D:\\Projects\\demo2\\main.py::Library::find_book": {
+      "file_path": "D:\\Projects\\demo2\\main.py",
+      "class_name": "Library",
+      "method_name": "find_book",
+      "summary": "This code snippet defines a method `find_book` that searches for a book within a collection of books based on its title. It iterates through the books, compares the lowercase version of each book's title to the lowercase version of the input title, and returns the book object if a match is found, otherwise returning `None`.",
+      "source_code": "    def find_book(self, title):\n        for book in self.books:\n            if book.title.lower() == title.lower():\n                return book\n        return None\n"
+    },
+    "D:\\Projects\\demo2\\main.py::Library::borrow_book": {
+      "file_path": "D:\\Projects\\demo2\\main.py",
+      "class_name": "Library",
+      "method_name": "borrow_book",
+      "summary": "This code defines a `borrow_book` method that allows a user to borrow a book from the library by its title. It searches for the book and, if found, calls the book's `borrow` method; otherwise, it prints a \"not found\" message.",
+      "source_code": "    def borrow_book(self, title):\n        book = self.find_book(title)\n        if book:\n            book.borrow()\n        else:\n            print(f\"Book '{title}' not found in library.\")\n"
+    },
+    "D:\\Projects\\demo2\\main2.py::Vehicle::__init__": {
+      "file_path": "D:\\Projects\\demo2\\main2.py",
+      "class_name": "Vehicle",
+      "method_name": "__init__",
+      "summary": "This code defines the constructor (`__init__`) for a class, likely representing an object like a car or product. It initializes the object's `brand` and `model` attributes using the provided arguments.",
+      "source_code": "    def __init__(self, brand, model):\n        self.brand = brand\n        self.model = model\n"
+    },
+    "D:\\Projects\\demo2\\main2.py::Vehicle::start_engine": {
+      "file_path": "D:\\Projects\\demo2\\main2.py",
+      "class_name": "Vehicle",
+      "method_name": "start_engine",
+      "summary": "This Python code defines a method called `start_engine` within a class (likely representing a vehicle). When called, it prints a message to the console indicating that the engine of a specific vehicle (identified by its brand and model attributes) has been started.",
+      "source_code": "    def start_engine(self):\n        print(f\"{self.brand} {self.model}'s engine has started.\")\n"
+    },
+    "D:\\Projects\\demo2\\main2.py::Vehicle::stop_engine": {
+      "file_path": "D:\\Projects\\demo2\\main2.py",
+      "class_name": "Vehicle",
+      "method_name": "stop_engine",
+      "summary": "This Python code defines a method called `stop_engine` within a class, likely representing a vehicle. When called, it prints a message indicating that the engine of a specific vehicle (identified by its brand and model) has been stopped.",
+      "source_code": "    def stop_engine(self):\n        print(f\"{self.brand} {self.model}'s engine has stopped.\")\n"
+    },
+    "D:\\Projects\\demo2\\main2.py::Vehicle::display_info": {
+      "file_path": "D:\\Projects\\demo2\\main2.py",
+      "class_name": "Vehicle",
+      "method_name": "display_info",
+      "summary": "This Python code defines a method called `display_info` within a class, likely representing a vehicle. When called, it prints a formatted string containing the vehicle's brand and model, retrieved from the object's attributes.",
+      "source_code": "    def display_info(self):\n        print(f\"Vehicle: {self.brand} {self.model}\")\n"
+    },
+    "D:\\Projects\\demo2\\main2.py::ElectricVehicle::charge_battery": {
+      "file_path": "D:\\Projects\\demo2\\main2.py",
+      "class_name": "ElectricVehicle",
+      "method_name": "charge_battery",
+      "summary": "This Python code defines a `charge_battery` method for a class (likely representing a device with a battery). It sets the `battery_level` attribute of the object to 100 and prints a message indicating that the device is fully charged, including the device's brand and model.",
+      "source_code": "    def charge_battery(self):\n        self.battery_level = 100\n        print(f\"{self.brand} {self.model} is now fully charged.\")\n"
+    },
     "D:\\Projects\\demo2\\main2.py::ElectricVehicle::drive": {
       "file_path": "D:\\Projects\\demo2\\main2.py",
       "class_name": "ElectricVehicle",
       "method_name": "drive",
-      "summary": "This code defines a `drive` method for an electric vehicle, simulating driving a certain distance and consuming battery power. It checks for sufficient battery, reduces the battery level based on distance driven (at a rate of 0.5 units per km), and prints a status message.",
+      "summary": "This code simulates driving a vehicle, reducing its battery level based on the distance driven, consuming 0.5 units of battery per km. It also checks if the battery is empty before driving and prevents driving further than the available battery allows.",
       "source_code": "    def drive(self, distance):\n        if self.battery_level <= 0:\n            print(f\"{self.brand} {self.model} has no battery left.\")\n        else:\n            used = min(distance * 0.5, self.battery_level)\n            self.battery_level -= used\n            print(f\"Drove {distance} km. Battery now at {self.battery_level:.1f}%.\")\n"
     }
   }
