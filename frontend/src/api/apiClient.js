@@ -3,7 +3,7 @@ import axios from 'axios';
 // --- API Configuration ---
 // It's best practice to define your base URL in one place.
 // Make sure this matches the address of your FastAPI backend.
-const API_URL = 'http://127.0.0.1:8000/api';
+const API_URL = 'http://127.0.0.1:8001/api';
 
 const apiClient = axios.create({
   baseURL: API_URL,
@@ -57,10 +57,8 @@ export const getProjectHistory = (projectId) => {
 };
 
 export const askQuestion = (projectId, question) => {
-    // The backend expects a 'question' and an empty 'answer' in the body
-    // return apiClient.post(`/projects/${projectId}/ask`, { question, answer: "" }, { headers: getAuthHeaders() });
   const token = localStorage.getItem('authToken');
-  return apiClient.post(`api/projects/${projectId}/ask`,{ question, answer: "" }, {
+  return apiClient.post(`/projects/${projectId}/ask`,{ question, answer: "" }, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

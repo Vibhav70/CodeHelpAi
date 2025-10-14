@@ -36,7 +36,7 @@ const ProjectCard = ({ project }) => {
       {/* We add the new buttons in the footer of the card */}
       <div className="px-6 py-4 bg-gray-50 border-t flex flex-wrap justify-end gap-2">
         <Link
-          to={`/project/${project.id}/chat`}
+          to={`/projects/${project.id}`}
           className="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 transition-colors"
         >
           Open Chat

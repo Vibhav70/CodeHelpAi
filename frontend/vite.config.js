@@ -8,7 +8,7 @@ export default defineConfig({
     proxy: {
       // string shorthand: http://localhost:5173/api -> http://localhost:8000/api
       '/api': {
-        target: 'http://localhost:8000',
+        target: 'http://localhost:8001',
         changeOrigin: true,
       },
     }

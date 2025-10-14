@@ -1,7 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { loginUser } from '../api/apiClient';
-// --- THIS IS THE FIX ---
-// We use a named import { jwtDecode } instead of a default import.
 import { jwtDecode } from 'jwt-decode';
 
 const AuthContext = createContext(null);
@@ -9,14 +7,13 @@ const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(localStorage.getItem('authToken') || null);
+  const [role, setRole] = useState(localStorage.getItem('userRole') || 'user');
 
   useEffect(() => {
     if (token) {
       try {
-        // Use the correctly imported function name
         const decoded = jwtDecode(token);
-        
-        // Optional: Check if the token is expired
+
         const isExpired = decoded.exp * 1000 < Date.now();
         if (isExpired) {
           console.log("Token expired, logging out.");
@@ -39,6 +36,14 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await loginUser(username, password);
       setToken(response.data.access_token);
+
+      // ✅ Hardcode admin detection for now
+      const isAdmin = username === 'admin' && password === 'admin';
+      const userRole = isAdmin ? 'admin' : 'user';
+
+      setRole(userRole);
+      localStorage.setItem('userRole', userRole);
+
       return true;
     } catch (error) {
       console.error("Login failed:", error);
@@ -49,12 +54,15 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     setUser(null);
     setToken(null);
+    setRole('user');
     localStorage.removeItem('authToken');
+    localStorage.removeItem('userRole');
   };
 
   const authValue = {
     user,
     token,
+    role,
     login,
     logout,
     isAuthenticated: !!token,
@@ -66,4 +74,3 @@ export const AuthProvider = ({ children }) => {
 export const useAuth = () => {
   return useContext(AuthContext);
 };
-

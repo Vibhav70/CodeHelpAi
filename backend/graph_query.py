@@ -26,7 +26,7 @@ class RAGGraphState(TypedDict):
 
 # --- LLM Chain for Answer Generation ---
 # 1. Initialize the LLM
-llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0.3)
+llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash", temperature=0.3)
 
 # 2. Define the prompt for the final answer generation
 rag_prompt = ChatPromptTemplate.from_messages([

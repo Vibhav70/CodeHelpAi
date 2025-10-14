@@ -1,32 +1,31 @@
 {
-  "D:\\Projects\\demo\\banking.py": {
+  "C:\\Desktop\\projtrial\\demo.py": {
     "functions": {},
     "classes": {
-      "BankAccount": {
-        "source_hash": "a686de8f696f9823ef6d453adeceea067e88082e1b5d21c3dc0815c8dbe66e21",
+      "Book": {
+        "source_hash": "0e34635102ca893e8bc71c1154ad1c5bc27645475ee0dbaa9fbfbd959187c6af",
         "methods": {
-          "__init__": "49bca70c5867b6bbbe468a808b7131d7cbbfe853e17084230aec4550f77d7764",
-          "deposit": "2de2325533d9b06311118bcdd3fa712bb191785cb1d2ebdf302975021b1237f4",
-          "withdraw": "fe8a38e440eca9afd5b3a2c935591fed49644255863e6a7d3722731a101b4eb7",
-          "check_balance": "c9f9e474749144d2d0f0adf7af2cdb6b98588530901f7e851edbdca410abb099"
+          "__init__": "9e5141956ba00ea3b08617d7fd57adfd7d13e0d469c7256ce73bc742d475f925",
+          "__str__": "1b6f911a526b300421bd39d4e334075cdb4b25ff5613b34c01bee6da00650a53"
         }
-      }
-    }
-  },
-  "D:\\Projects\\demo\\checker.py": {
-    "functions": {},
-    "classes": {}
-  },
-  "D:\\Projects\\demo\\studenttClass.py": {
-    "functions": {},
-    "classes": {
-      "Student": {
-        "source_hash": "ac83ac1565c625065f75cc0dc47e68a9b9a90cafe65afcc36f0f1e2eb6714c4a",
+      },
+      "Member": {
+        "source_hash": "a2cef34318fa16eeb52d74649b1f9adfe09dc8d932ab198c8a734ed51b1131a2",
         "methods": {
-          "__init__": "07fa266a1f2d496b6861f917e6a9e71ed499f4b0ac4e3fdc0d9106208acc12fd",
-          "calculate_average": "b65d5dade427f6279d26ae7d52ff9a0ac38f9616bf42e2d451bba7adaf95add7",
-          "get_grade": "9cafeda3ffb6701d7ca56df4dfe0f9ac3119d0186120d23be0d6d0396eb4890f",
-          "display_info": "525eb53b48d3b16b156cc7928ea5946e6b04abb4b73de469e280fbfadd065e91"
+          "__init__": "5bab56ef22d985ca351244e099af062fe2bb5f8c67a41fa2ef44476938a2a56f",
+          "borrow_book": "b8bd8a21d7755225366cd0135879a8e607730de93390946c7067916a61318392",
+          "return_book": "5f7806a4b6c232f8c59b70ca22264f3250ec140bb8926fe4d880b30d0f463c46",
+          "show_borrowed_books": "e1945586deb48ee2bedc1910908c722d6b3bc98224a3719140dab88489ad954e"
+        }
+      },
+      "Library": {
+        "source_hash": "7c13f4fd0afdb713415ffa8232bd9151f58d41816aba811154b7d37793b4569b",
+        "methods": {
+          "__init__": "1db771a032c59fef67f25a997b249fabe46dd83b6c79a31f34f6d645c7dd9f8d",
+          "add_book": "9ce29a031dfc358472c687f580da87fe6543f83a02a45dad022ed73014ff7440",
+          "add_member": "621fa7e02ff441e0065097904bafff81c769f75d72d8762a35e333c4cc2a2237",
+          "list_books": "0419bc581ea5621dcdc8ef5b858b74926c6bd12ad9f63fa5d6d966df4aaa934c",
+          "find_book_by_isbn": "82d8b7c56ae702971a9314c9387dce546d69ee8ef7f0a799cb9e08ca53879c93"
         }
       }
     }

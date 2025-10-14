@@ -160,7 +160,7 @@
 </style>
 
 <div class="header-main">
-<h1>📚 Codebase Documentation: proj1</h1>
+<h1>📚 Codebase Documentation: Proj11</h1>
 </div>
 
 <div class="project-overview">
@@ -171,10 +171,10 @@
 <div class="toc-container">
 <h2>📋 Table of Contents</h2>
 
-- [📄 D:\Projects\demo\banking.py](#d--projects-demo-banking-py)
-  - [🏛️ BankAccount](#bankaccount)
-- [📄 D:\Projects\demo\studenttClass.py](#d--projects-demo-studenttclass-py)
-  - [🏛️ Student](#student)
+- [📄 C:\Desktop\projtrial\demo.py](#c--desktop-projtrial-demo-py)
+  - [🏛️ Book](#book)
+  - [🏛️ Member](#member)
+  - [🏛️ Library](#library)
 
 </div>
 
@@ -184,100 +184,190 @@
 
 
 <div class="file-section">
-<h3><a name="d--projects-demo-banking-py"></a>📄 File: <code>D:\Projects\demo\banking.py</code></h3>
+<h3><a name="c--desktop-projtrial-demo-py"></a>📄 File: <code>C:\Desktop\projtrial\demo.py</code></h3>
 
 
 <h4>🏛️ Classes</h4>
 
 
 <div class="class-container">
-<h5><a name="bankaccount"></a><span class="badge">CLASS</span>BankAccount</h5>
+<h5><a name="book"></a><span class="badge">CLASS</span>Book</h5>
 
 <div class="summary-text">
-<strong>📖 Summary:</strong> This Python code defines a `BankAccount` class that simulates a simple bank account, allowing users to deposit, withdraw, and check their balance. It initializes with an owner and optional initial balance, and provides methods to modify and view the account's financial status.
+<strong>📖 Summary:</strong> This Python code defines a `Book` class to represent a book with attributes like title, author, ISBN, and availability status. It includes an `__init__` method to initialize book objects and a `__str__` method to provide a user-friendly string representation of the book's details and availability.
 </div>
 
+<div class="methods-table">
+<table>
+<thead>
+<tr>
+<th>🔧 Method</th>
+<th>📝 Summary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>__init__()</code></td>
+<td>This code defines the constructor (`__init__`) for a class, likely representing a book. It initializes the book's title, author, ISBN, and sets its availability status to True by default.</td>
+</tr>
+<tr>
+<td><code>__str__()</code></td>
+<td>This code defines the string representation of an object, likely a book. It returns a formatted string containing the book's title, author, ISBN, and availability status ("Available" or "Checked Out").</td>
+</tr>
+</tbody>
+</table>
+</div>
 
 <strong>💾 Full Source Code:</strong>
 <div class="code-block">
-<pre><code class="language-python">class BankAccount:
-    """Simple bank account simulation"""
-    def __init__(self, owner, balance=0):
-        self.owner = owner
-        self.balance = balance
-    
-    def deposit(self, amount):
-        """Add money to the account"""
-        self.balance += amount
-        print(f"Deposited ₹{amount}. New balance: ₹{self.balance}")
-    
-    def withdraw(self, amount):
-        """Withdraw money if enough balance"""
-        if amount <= self.balance:
-            self.balance += amount
-            print(f"Withdrew ₹{amount}. Remaining balance: ₹{self.balance}")
-        else:
-            print("Insufficient balance!")
-    
-    def check_balance(self):
-        """Check account balance"""
-        print(f"Account holder: {self.owner} | Balance: ₹{self.balance}")
+<pre><code class="language-python">class Book:
+    def __init__(self, title, author, isbn):
+        self.title = title
+        self.author = author
+        self.isbn = isbn
+        self.is_available = True
+
+    def __str__(self):
+        status = "Available" if self.is_available else "Checked Out"
+        return f"'{self.title}' by {self.author} (ISBN: {self.isbn}) - {status}"
 </code></pre>
 </div>
 
 </div>
 
 
-
-</div>
-
-
-<div class="file-section">
-<h3><a name="d--projects-demo-studenttclass-py"></a>📄 File: <code>D:\Projects\demo\studenttClass.py</code></h3>
-
-
-<h4>🏛️ Classes</h4>
-
-
 <div class="class-container">
-<h5><a name="student"></a><span class="badge">CLASS</span>Student</h5>
+<h5><a name="member"></a><span class="badge">CLASS</span>Member</h5>
 
 <div class="summary-text">
-<strong>📖 Summary:</strong> This Python code defines a `Student` class to represent a student's information, including their name and a list of marks. It provides methods to calculate the average mark, determine the grade based on the average, and display the student's information.
+<strong>📖 Summary:</strong> This code defines a `Member` class to represent a library member, allowing them to borrow books (updating book availability and due dates), return books, and view their currently borrowed books. It manages the member's borrowed books as a list of tuples containing the book object and its due date.
 </div>
 
+<div class="methods-table">
+<table>
+<thead>
+<tr>
+<th>🔧 Method</th>
+<th>📝 Summary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>borrow_book()</code></td>
+<td>This code defines a `borrow_book` method that allows a user to borrow a book if it's available. It marks the book as unavailable, sets a due date 14 days from the borrowing date, and adds the book and due date to the user's list of borrowed books, also printing a confirmation message.</td>
+</tr>
+<tr>
+<td><code>return_book()</code></td>
+<td>This code defines a `return_book` method that allows a patron to return a borrowed book to the library. It checks if the patron has borrowed the book, updates the book's availability, removes it from the patron's borrowed books list, and prints a confirmation message.</td>
+</tr>
+<tr>
+<td><code>show_borrowed_books()</code></td>
+<td>This code snippet defines a function `show_borrowed_books` that displays the books borrowed by a member, along with their due dates. If the member has no borrowed books, it prints a message indicating that; otherwise, it iterates through the borrowed books and prints each book's title and due date.</td>
+</tr>
+</tbody>
+</table>
+</div>
 
 <strong>💾 Full Source Code:</strong>
 <div class="code-block">
-<pre><code class="language-python">class Student:
-    """Represents a student with marks and grade calculation"""
-    def __init__(self, name, marks):
+<pre><code class="language-python">class Member:
+    def __init__(self, name, member_id):
         self.name = name
-        self.marks = marks  # List of marks for subjects
-    
-    def calculate_average(self):
-        """Calculates average marks"""
-        return sum(self.marks) / len(self.marks)
-    
-    def get_grade(self):
-        """Determines grade based on average"""
-        avg = self.calculate_average()
-        if avg >= 90:
-            return "A=="
-        elif avg >= 75:
-            return "WW"
-        elif avg >= 60:
-            return "B"
-        elif avg >= 40:
-            return "C"
+        self.member_id = member_id
+        self.borrowed_books = []
+
+    def borrow_book(self, book):
+        if book.is_available:
+            book.is_available = False
+            due_date = datetime.now() + timedelta(days=14)
+            self.borrowed_books.append((book, due_date))
+            print(f"{self.name} borrowed '{book.title}'. Due on {due_date.date()}.")
         else:
-            return "m"
-    
-    def display_info(self):
-        """Prints student details"""
-        print(f"Student: {self.name}")
-        print(f"Average Marks: {self.calculate_average():.2f}")
-        print(f"Grade: {self.get_grade()}")
+            print(f"Sorry, '{book.title}' is already borrowed.")
+
+    def return_book(self, book):
+        for borrowed, due_date in self.borrowed_books:
+            if borrowed.isbn == book.isbn:
+                book.is_available = True
+                self.borrowed_books.remove((borrowed, due_date))
+                print(f"{self.name} returned '{book.title}'. Thank you!")
+                return
+        print(f"{self.name} did not borrow '{book.title}'.")
+
+    def show_borrowed_books(self):
+        if not self.borrowed_books:
+            print(f"{self.name} has not borrowed any books.")
+        else:
+            print(f"{self.name}'s Borrowed Books:")
+            for book, due_date in self.borrowed_books:
+                print(f" - {book.title} (Due: {due_date.date()})")
+</code></pre>
+</div>
+
+</div>
+
+
+<div class="class-container">
+<h5><a name="library"></a><span class="badge">CLASS</span>Library</h5>
+
+<div class="summary-text">
+<strong>📖 Summary:</strong> This code defines a `Library` class to manage a collection of books and members. It provides methods to add books and members, list all books in the catalog, and find a specific book by its ISBN.
+</div>
+
+<div class="methods-table">
+<table>
+<thead>
+<tr>
+<th>🔧 Method</th>
+<th>📝 Summary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>add_book()</code></td>
+<td>This Python code defines a method `add_book` that adds a `book` object to a list called `books` (presumably a library's collection) and then prints a confirmation message to the console indicating the title of the added book.</td>
+</tr>
+<tr>
+<td><code>add_member()</code></td>
+<td>This Python code defines a method `add_member` that adds a new `member` object to a list called `members` within the class instance. It also prints a confirmation message to the console indicating the name of the member that was added.</td>
+</tr>
+<tr>
+<td><code>list_books()</code></td>
+<td>This code snippet defines a method `list_books` that iterates through a list of `book` objects stored in `self.books` and prints each book's information to the console, effectively displaying the library's catalog.</td>
+</tr>
+<tr>
+<td><code>find_book_by_isbn()</code></td>
+<td>This code snippet defines a function `find_book_by_isbn` that searches a list of `books` for a book with a matching ISBN. If a book with the given ISBN is found, it is returned; otherwise, the function returns `None`.</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<strong>💾 Full Source Code:</strong>
+<div class="code-block">
+<pre><code class="language-python">class Library:
+    def __init__(self):
+        self.books = []
+        self.members = []
+
+    def add_book(self, book):
+        self.books.append(book)
+        print(f"Added book: {book.title}")
+
+    def add_member(self, member):
+        self.members.append(member)
+        print(f"Added member: {member.name}")
+
+    def list_books(self):
+        print("\nLibrary Catalog:")
+        for book in self.books:
+            print(book)
+
+    def find_book_by_isbn(self, isbn):
+        for book in self.books:
+            if book.isbn == isbn:
+                return book
+        return None
 </code></pre>
 </div>
 
