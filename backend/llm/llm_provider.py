@@ -47,9 +47,9 @@ def get_summarization_chain():
 
     # Initialize the Gemini model for structured output
     llm = ChatGoogleGenerativeAI(
-        model="gemini-pro",
+        model="gemini-2.0-flash",
         temperature=0,
-        max_output_tokens=2048
+        max_output_tokens=500
     )
 
     # Create a parser that expects a JSON output matching our FileSummary model

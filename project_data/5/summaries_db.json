@@ -1,0 +1,21 @@
+{
+  "functions": {},
+  "classes": {
+    "C:\\Desktop\\projtrial\\demo.py::Book": {
+      "file_path": "C:\\Desktop\\projtrial\\demo.py",
+      "class_name": "Book",
+      "summary": "Error: Could not generate summary."
+    },
+    "C:\\Desktop\\projtrial\\demo.py::Member": {
+      "file_path": "C:\\Desktop\\projtrial\\demo.py",
+      "class_name": "Member",
+      "summary": "Error: Could not generate summary."
+    },
+    "C:\\Desktop\\projtrial\\demo.py::Library": {
+      "file_path": "C:\\Desktop\\projtrial\\demo.py",
+      "class_name": "Library",
+      "summary": "Error: Could not generate summary."
+    }
+  },
+  "methods": {}
+}

@@ -37,8 +37,6 @@ def get_embedding():
     """
     print(f"--- Initializing local embedding model: {EMBEDDING_MODEL_NAME} ---")
     try:
-        # Create an instance of the embedding function using the specified model.
-        # This will download the model on the first run if it's not cached.
         embedding_function = embedding_functions.SentenceTransformerEmbeddingFunction(
             model_name=EMBEDDING_MODEL_NAME
         )
